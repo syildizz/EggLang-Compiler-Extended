@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Egg compiler</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="12_language_compiler.js"></script>
+</head>
+
+<body><script>
+console.log(compile(`
+do(define(plusOne, fun(a, +(a, 1))),
+   print(plusOne(10)))
+   # -> 11
+
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do(define(pow, fun(base, exp,
+     if(==(exp, 0),
+        1,
+        *(base, pow(base, -(exp, 1)))))),
+   print(pow(2, 10)))
+   # -> 1024
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do(
+   define(a, 10),
+   define(b, 5),
+   print(
+      +(a,b)
+   )
+   # -> 15
+)
+`));
+</script> </body>
+-->
+
+<body><script>
+console.log(compile(`
+   # Holds total value
+   do(define(total, 0),
+   define(count, 1),
+   # Loop
+   while(<(count, 11),
+         do(define(total, +(total, count)),
+            define(count, +(count, 1)))),
+   print(total))
+   # -> 55
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do(define(sum, fun(array,
+     do(define(i, 0),
+        define(sum, 0),
+        while(<(i, length(array)),
+          do(
+            define(sum, +(sum, element(array, i))),
+            define(i, +(i, 1)))),
+        sum))),
+   print(sum(array(1, 2, 3))))
+   # -> 6
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do(define(x, 4),
+   define(setx, fun(val, set(x, val))),
+   #define(setx, fun(val, define(x, val))),
+   setx(50),
+   print(x))
+   # -> 50
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+   set(quux, true)
+   # -> Uncaught ReferenceError: Setting undefined variable quux
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do
+(
+   # Print 5 x 5 matrix of numbers
+   define(arr, array()),
+   for(define(i,1), <=(i,5), define(i, +(i,1)),
+      do(
+         define(inarr, array()),
+         for(define(j,1), <=(j,5), define(j, +(j,1)),
+            push(inarr, *(i,j))
+         ),
+         push(arr, inarr),
+         define(inarr, array())
+      )
+   ),
+   # print(arr),
+   native("
+      let result = arr
+         .map(i => i
+            .map(j => j.toString().padStart(3, ' '))
+         )
+         .map(j => j.join(''))
+   	   .join('\\n');
+      console.log(result);
+   ")
+)
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+do
+(
+   define(a, 1),
+   define(b, +(a,1)),
+   native("
+      console.log('This is just javascript');
+      console.log('a + b is', a, '+', b, '=', a+b);
+   ")
+)
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+   do(
+      native("
+         function printRange(num) {
+            let arr = [];
+            for (let i = 0; i < num; i++) {
+               arr.push(i);
+            }
+            console.log(arr.join(' '));
+         }
+      "),
+      extern(printRange),
+      printRange(10)
+      # -> 0 1 2 3 4 5 6 7 8 9
+   )
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+   do(
+      define(a, fun(
+         while(==(1,1),
+            1
+         )
+      )),
+      a()
+   )
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+   do(
+      define(multiplier, fun(multr,
+         do(
+            define(inner_multiplier, fun(multed,
+               *(multr, multed)
+            )),
+            inner_multiplier
+         )
+      )),
+      define(doubler, multiplier(2)),
+      print(doubler(5)),
+      print(multiplier(2)(5))
+   )
+`));
+</script></body>
+-->
+
+<body><script>
+console.log(compile(`
+   do(
+      define(multiplier, fun(multr,
+         do(
+            native("
+            let inner_multiplier = multed => {
+               return multr * multed;
+            };
+            return inner_multiplier;
+            ")
+         )
+      )),
+      define(doubler, multiplier(2)),
+      print(doubler(5)),
+      print(multiplier(2)(5))
+   )
+`));
+</script></body>
+-->
