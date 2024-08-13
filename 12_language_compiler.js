@@ -60,7 +60,8 @@ var specialForms = Object.create(null);
 
 function evaluate(expr, scope, meta) {
   if (expr.type == "value") {
-    let value = expr.value;
+    //let value = expr.value;
+    let value = JSON.stringify(expr.value);
     return evaluate_meta(value, meta);
   } else if (expr.type == "word") {
     if (expr.name in scope) {
@@ -196,7 +197,7 @@ specialForms.set = (args, scope, meta) => {
 };
 
 specialForms.native = (args, _, meta) => {
-  let stmt = evaluate(args[0]);
+  let stmt = JSON.parse(evaluate(args[0]));
   let skip_length = 0;
   let stmt_array = stmt.split('\n').filter(l => /^\s*(?=\S)/.test(l));
   skip_length = stmt_array[0].match(/^\s*(?=\S)/)[0].length;
