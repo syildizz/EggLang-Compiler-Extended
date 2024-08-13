@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <title>Egg compiler</title>
@@ -7,31 +8,38 @@
     <script src="12_language_compiler.js"></script>
 </head>
 
-<body><script>
-console.log(compile(`
-do(define(plusOne, fun(a, +(a, 1))),
+<body>
+
+<script>let code;</script>
+
+<script>
+   code = 
+`do(define(plusOne, fun(a, +(a, 1))),
    print(plusOne(10)))
    # -> 11
-
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do(define(pow, fun(base, exp,
-     if(==(exp, 0),
-        1,
-        *(base, pow(base, -(exp, 1)))))),
+<script>
+   code = 
+`do(define(pow, fun(base, exp,
+      if(==(exp, 0),
+         1,
+         *(base, pow(base, -(exp, 1)))))),
    print(pow(2, 10)))
    # -> 1024
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do(
+<script>
+   code = 
+`do(
    define(a, 10),
    define(b, 5),
    print(
@@ -39,13 +47,15 @@ do(
    )
    # -> 15
 )
-`));
-</script> </body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script> 
 -->
 
-<body><script>
-console.log(compile(`
-   # Holds total value
+<script>
+   code = 
+`# Holds total value
    do(define(total, 0),
    define(count, 1),
    # Loop
@@ -54,49 +64,57 @@ console.log(compile(`
             define(count, +(count, 1)))),
    print(total))
    # -> 55
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do(define(sum, fun(array,
-     do(define(i, 0),
-        define(sum, 0),
-        while(<(i, length(array)),
-          do(
+<script>
+   code = 
+`do(define(sum, fun(array,
+   do(define(i, 0),
+      define(sum, 0),
+      while(<(i, length(array)),
+         do(
             define(sum, +(sum, element(array, i))),
             define(i, +(i, 1)))),
         sum))),
    print(sum(array(1, 2, 3))))
    # -> 6
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do(define(x, 4),
+<script>
+   code = 
+`do(define(x, 4),
    define(setx, fun(val, set(x, val))),
    #define(setx, fun(val, define(x, val))),
    setx(50),
    print(x))
    # -> 50
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-   set(quux, true)
+<script>
+   code = 
+`set(quux, true)
    # -> Uncaught ReferenceError: Setting undefined variable quux
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do
+<script>
+   code = 
+`do
 (
    # Print 5 x 5 matrix of numbers
    define(arr, array()),
@@ -121,13 +139,15 @@ do
       console.log(result);
    ")
 )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-do
+<script>
+   code = 
+`do
 (
    define(a, 1),
    define(b, +(a,1)),
@@ -136,13 +156,15 @@ do
       console.log('a + b is', a, '+', b, '=', a+b);
    ")
 )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-   do(
+<script>
+   code = 
+`do(
       native("
          function printRange(num) {
             let arr = [];
@@ -156,13 +178,15 @@ console.log(compile(`
       printRange(10)
       # -> 0 1 2 3 4 5 6 7 8 9
    )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-   do(
+<script>
+   code = 
+`do(
       define(a, fun(
          while(==(1,1),
             1
@@ -170,13 +194,15 @@ console.log(compile(`
       )),
       a()
    )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-   do(
+<script>
+   code = 
+`do(
       define(multiplier, fun(multr,
          do(
             define(inner_multiplier, fun(multed,
@@ -189,13 +215,15 @@ console.log(compile(`
       print(doubler(5)),
       print(multiplier(2)(5))
    )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
 
-<body><script>
-console.log(compile(`
-   do(
+<script>
+   code = 
+`do(
       define(multiplier, fun(multr,
          do(
             native("
@@ -210,6 +238,11 @@ console.log(compile(`
       print(doubler(5)),
       print(multiplier(2)(5))
    )
-`));
-</script></body>
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
 -->
+
+</body>
+</html>
