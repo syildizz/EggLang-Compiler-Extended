@@ -256,5 +256,18 @@
 </script>
 -->
 
+<script>
+   code = 
+`do(
+   define(h, "Hello"),
+   define(w, "World"),
+   +(h, +(" ", w))
+)
+`;
+   console.log("Compiling: " + compile(code));
+   console.log("Running: " + run(code));
+</script>
+-->
+
 </body>
 </html>
