@@ -47,6 +47,27 @@ becomes
 body
 ```
 
+### Extern statement
+
+The compiler supports an extern statement. The extern statement is used to define a label to the compiler that is outside of it's scope. 
+
+Normally, the compiler would throw an error when accessing a label that it does not recognize. 
+The extern statement adds the label to the compiler so that it can properly recognize it.
+This statement is usually used to access global variables from javascript or from native statements.
+
+```
+extern(label)
+```
+
+becomes
+
+```js
+// External label: label
+```
+
+No code is generated since this statement is for the compiler only.
+
+
 ### Push statement
 
 The compiler supports a push statement. The push statement is the [_Array.prototype.push_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push) method implemented for Egg language.
